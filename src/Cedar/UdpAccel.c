@@ -289,7 +289,7 @@ void UdpAccelPoll(UDP_ACCEL *a)
 
 			a->NextSendKeepAlive = a->Now + (UINT64)rand_interval;
 
-			//Debug("UDP KeepAlive\n");
+			Debug("UDP KeepAlive\n");
 
 			UdpAccelSend(a, NULL, 0, false, 1000, false);
 		}
@@ -557,6 +557,7 @@ void UdpAccelSend(UDP_ACCEL *a, UCHAR *data, UINT data_size, bool compressed, UI
 	// Send
 	SetSockHighPriority(a->UdpSock, high_priority);
 
+	Debug("Attempt SendTo: %r %u %u\n", &a->YourIp, a->YourPort, size);
 	r = SendTo(a->UdpSock, &a->YourIp, a->YourPort, tmp, size);
 	if (r == 0 && a->UdpSock->IgnoreSendErr == false)
 	{
@@ -571,6 +572,7 @@ void UdpAccelSend(UDP_ACCEL *a, UCHAR *data, UINT data_size, bool compressed, UI
 		{
 			if ((a->YourPortByNatTServer != 0) && (a->YourPort != a->YourPortByNatTServer))
 			{
+				Debug("Attempt SendTo by NAT: %r %u %u\n", &a->YourIp, a->YourPort, size);
 				r = SendTo(a->UdpSock, &a->YourIp, a->YourPortByNatTServer, tmp, size);
 				if (r == 0 && a->UdpSock->IgnoreSendErr == false)
 				{
@@ -589,6 +591,7 @@ void UdpAccelSend(UDP_ACCEL *a, UCHAR *data, UINT data_size, bool compressed, UI
 			{
 				// When the KeepAlive, if the opponent may be behind a NAT,
 				// send the packet to the IP address of outside of the NAT
+				Debug("Attempt SendTo Keepalive: %r %u %u\n", &a->YourIp2, a->YourPort, size);
 				r = SendTo(a->UdpSock, &a->YourIp2, a->YourPort, tmp, size);
 				if (r == 0 && a->UdpSock->IgnoreSendErr == false)
 				{
@@ -598,6 +601,7 @@ void UdpAccelSend(UDP_ACCEL *a, UCHAR *data, UINT data_size, bool compressed, UI
 
 				if ((a->YourPortByNatTServer != 0) && (a->YourPort != a->YourPortByNatTServer))
 				{
+					Debug("Attempt SendTo Keepalive by NAT: %r %u %u\n", &a->YourIp2, a->YourPort, size);
 					r = SendTo(a->UdpSock, &a->YourIp2, a->YourPortByNatTServer, tmp, size);
 					if (r == 0 && a->UdpSock->IgnoreSendErr == false)
 					{
@@ -615,7 +619,7 @@ void UdpAccelSend(UDP_ACCEL *a, UCHAR *data, UINT data_size, bool compressed, UI
 		WHERE;
 	}
 
-	//Debug("UDP Send: %u\n", size);
+	Debug("UDP Send: %u\n", size);
 }
 
 // Determine whether transmission is possible

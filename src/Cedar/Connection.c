@@ -1229,6 +1229,7 @@ void ConnectionSend(CONNECTION *c, UINT64 now)
 								// UDP acceleration mode
 								while (b = GetNext(q))
 								{
+									Debug("ConnectionSend: Use UDP acceleration\n");
 									UdpAccelSendBlock(s->UdpAccel, b);
 
 									s->TotalSendSize += b->Size;
@@ -1800,6 +1801,7 @@ void ConnectionReceive(CONNECTION *c, CANCEL *c1, CANCEL *c2)
 		{
 			// Read the data received by the UDP If using the UDP acceleration mode
 			UdpAccelSetTick(s->UdpAccel, now);
+			Debug("ConnectionReceive: Use UDP acceleration\n");
 			UdpAccelPoll(s->UdpAccel);
 
 			if (s->UdpAccelMss == 0)
