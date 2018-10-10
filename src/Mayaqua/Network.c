@@ -14351,6 +14351,8 @@ void Disconnect(SOCK *sock)
 		return;
 	}
 
+	Debug("Disconnect(%p)\n", sock);
+
 	sock->Disconnecting = true;
 
 #ifdef	ENABLE_SSL_LOGGING
@@ -14629,6 +14631,7 @@ void Disconnect(SOCK *sock)
 	Unlock(sock->disconnect_lock);
 
 	Unlock(disconnect_function_lock);
+	Debug("Disconnect(%p) finished\n", sock);
 }
 
 typedef struct TCP_PORT_CHECK
@@ -18524,7 +18527,7 @@ void SocketTimeoutThread(THREAD *t, void *param)
 	// Disconnect if it is blocked
 	if(! ttparam->unblocked)
 	{
-//		Debug("Socket timeouted\n");
+		Debug("Socket %p (%r) timed out\n", ttparam->sock, ttparam->sock->RemoteIP);
 		closesocket(ttparam->sock->socket);
 	}
 	else

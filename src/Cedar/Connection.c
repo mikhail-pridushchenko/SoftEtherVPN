@@ -2906,6 +2906,11 @@ void FreeTcpSock(TCPSOCK *ts)
 		return;
 	}
 
+	Debug("FreeTcpSock(%p)...\n", ts);
+	if (ts->Sock != NULL)
+	{
+		Debug("... for address %r\n", ts->Sock->RemoteIP);
+	}
 	Disconnect(ts->Sock);
 	ReleaseSock(ts->Sock);
 	ReleaseFifo(ts->RecvFifo);
@@ -2921,6 +2926,7 @@ void FreeTcpSock(TCPSOCK *ts)
 	}
 
 	Free(ts);
+	Debug("FreeTcpSock(%p) finished\n", ts);
 }
 
 // Exit the tunneling mode of connection
@@ -3321,6 +3327,7 @@ void DisconnectTcpSockets(CONNECTION *c)
 	}
 
 	tcp = c->Tcp;
+	Debug("DisconnectTcpSockets(%p)\n", c);
 	LockList(tcp->TcpSockList);
 	{
 		tcpsocks = ToArray(tcp->TcpSockList);
@@ -3341,6 +3348,7 @@ void DisconnectTcpSockets(CONNECTION *c)
 	}
 
 	Free(tcpsocks);
+	Debug("DisconnectTcpSockets(%p) finished\n", c);
 }
 
 // Clean up of the connection
@@ -3353,6 +3361,7 @@ void CleanupConnection(CONNECTION *c)
 		return;
 	}
 
+	Debug("CleanupConnection(%p) (\"%s\")\n", c, c->Name);
 	if (c->LastRecvFifoTotalSize != 0)
 	{
 		CedarAddFifoBudget(c->Cedar, -((int)c->LastRecvFifoTotalSize));
@@ -3505,6 +3514,7 @@ void CleanupConnection(CONNECTION *c)
 	}
 
 	Free(c);
+	Debug("CleanupConnection(%p) finished\n", c);
 }
 
 // Release of the connection
@@ -3516,10 +3526,14 @@ void ReleaseConnection(CONNECTION *c)
 		return;
 	}
 
+	Debug("ReleaseConnection %p\n", c);
+
 	if (Release(c->ref) == 0)
 	{
 		CleanupConnection(c);
 	}
+
+	Debug("Finished ReleaseConnection %p\n", c);
 }
 
 // Comparison of connection
