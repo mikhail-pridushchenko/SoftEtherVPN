@@ -267,6 +267,7 @@ void TCPAcceptedThread(THREAD *t, void *param)
 	if (IS_SPECIAL_PORT(s->RemotePort) == false)
 	{
 		SLog(r->Cedar, "LS_LISTENER_ACCEPT", r->Port, tmp, s->RemoteHostname, s->RemotePort);
+		Debug("Accepted socket %p from IP %r\n", s, &s->RemoteIP);
 	}
 
 	// Reception
