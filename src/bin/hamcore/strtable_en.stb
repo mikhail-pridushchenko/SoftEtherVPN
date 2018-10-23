@@ -1748,6 +1748,8 @@ LS_LISTENER_START_1		TCP Listener (port %u) is starting.
 LS_LISTENER_START_2		TCP Listener (port %u) has started. Now listening for connection from client.
 LS_LISTENER_START_3		Unable to set port to Listen status for TCP Listener (port %u). Attempting at fixed intervals until successful.
 LS_LISTENER_ACCEPT		On the TCP Listener (Port %u), a Client (IP address %S, Host name "%S", Port number %u) has connected.
+LS_LISTENER_ACCEPT_SOCKET	Accepted client IP %r by socket %p (# %i).
+LS_CONNECTION_SOCKET_CLOSE	Close connection for client IP %r socket %p (# %i).
 LS_LISTENER_DISCONNECT	The connection with the client (IP address %S, Port number %u) has been disconnected.
 LS_LISTENER_DOS			A DoS attack on the TCP Listener (port %u) has been detected. The connecting source IP address is %S, port number is %u. This connection will be forcefully disconnected now.
 LS_LISTENER_MAXUEC		The TCP listener is temporary suspending to accept new inward connections because of the number of pending TCP connections exceeded %u. (Current value = %u)
