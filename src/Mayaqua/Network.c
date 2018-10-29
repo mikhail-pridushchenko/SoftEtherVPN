@@ -13998,6 +13998,8 @@ SOCK *Accept(SOCK *sock)
 		AddIpClient(&ret->RemoteIP);
 	}
 
+	Debug("Accept socket %p (%i) from IP %r\n", ret, new_socket, &ret->RemoteIP);
+
 	if (IsZeroIp(&sock->LocalIP) == false && IsLocalHostIP(&sock->LocalIP) == false)
 	{
 		IP current_ip;
