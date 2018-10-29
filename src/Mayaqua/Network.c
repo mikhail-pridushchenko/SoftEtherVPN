@@ -16103,6 +16103,7 @@ void CleanupSock(SOCK *s)
 	FreeBuf(s->SendBuf);
 	if (s->socket != INVALID_SOCKET)
 	{
+		Debug("Disconnect socket %p (%i) for IP %r\n", s, s->socket, &s->RemoteIP);
 #ifdef	OS_WIN32
 		closesocket(s->socket);
 #else	// OS_WIN32
