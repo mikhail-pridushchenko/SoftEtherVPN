@@ -14460,6 +14460,7 @@ void Disconnect(SOCK *sock)
 			}
 
 			// Close the socket
+			Debug("Disconnected socket %p (%i) for IP %r\n", sock, s, &sock->RemoteIP);
 			closesocket(s);
 
 #ifdef	OS_UNIX
